@@ -1,0 +1,8 @@
+composeFiles:
+  primary: docker-compose.yml
+
+# envFiles:
+# - path: .dockerenv
+
+hosts:
+- svc-a.orca-fictorg.test
