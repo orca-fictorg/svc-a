@@ -1,8 +1,34 @@
 composeFiles:
   primary: docker-compose.yml
 
-# envFiles:
-# - path: .dockerenv
+envFiles:
+  - path: .env
 
 hosts:
-- svc-a.orca-fictorg.test
+  - svc-a.orca-fictorg.test
+
+extensions:
+  - name: env
+    type: syncFile
+    source: .env.example
+    target: .env
+    description: Create .env from .env.example
+
+  - name: os-info
+    service: svc-a
+    command: cat /etc/os-release
+    description: Show which OS the container runs
+
+  - name: smoke
+    command: ./scripts/smoke.sh
+    description: Check svc-a answers through traefik
+
+hooks:
+  clone:
+    post:
+      - extension: env
+      - extension: install-deps
+        scope: workspace
+  up:
+    post:
+      - extension: smoke

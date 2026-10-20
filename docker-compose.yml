@@ -2,3 +2,11 @@ services:
   svc-a:
     build:
       context: .
+    environment:
+      GREETING: ${GREETING}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.svc-a.rule: Host(`svc-a.orca-fictorg.test`)
+      traefik.http.routers.svc-a.entrypoints: websecure
+      traefik.http.routers.svc-a.tls: "true"
+      traefik.http.services.svc-a.loadbalancer.server.port: "8080"
