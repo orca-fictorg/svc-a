@@ -23,10 +23,18 @@ extensions:
     command: ./scripts/smoke.sh
     description: Check svc-a answers through traefik
 
+  # Wherever the workspace clones the sdk library, it's linked in here
+  - name: link-sdk
+    type: symlink
+    source: "{{ .Projects.sdk.Path }}"
+    target: vendor/sdk
+    description: Link the sdk library into vendor
+
 hooks:
   clone:
     post:
       - extension: env
+      - extension: link-sdk
       - extension: install-deps
         scope: workspace
   up:
