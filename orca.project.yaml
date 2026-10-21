@@ -30,13 +30,16 @@ extensions:
     target: vendor/sdk
     description: Link the sdk library into vendor
 
+  - name: install-deps
+    command: make deps
+    description: Install svc-a's dependencies
+
 hooks:
   clone:
     post:
       - extension: env
       - extension: link-sdk
       - extension: install-deps
-        scope: workspace
   up:
     post:
       - extension: smoke
